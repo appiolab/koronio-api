@@ -36,6 +36,7 @@ module.exports = function (){
                         if (isPasswordMatch == true){
 
                             var tokenize = {
+                                id          : result.id,
                                 userid      : result.userid,
                                 email       : result.email,
                                 firstName   : result.firstName,
@@ -117,19 +118,19 @@ module.exports = function (){
          *
          * @param data
          */
-        update: function (data) {
+        update: function (id, data) {
 
             return new Promise( function (resolve, reject) {
 
                 models.User.update(
                     {
-                        firstaName  : data.first_name,
-                        lastName    : data.last_name,
+                        firstName   : data.first_name,
+                        lastName    : data.last_name
                     },
                     {
                         where: {
-                            id: data.id
-                        }})
+                            id      : id
+                    }})
                     .then(function (user) {
 
                         return resolve({

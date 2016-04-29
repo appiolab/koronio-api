@@ -29,21 +29,11 @@ module.exports = function (sequelize, DataTypes) {
         },
         firstName: {
             type: DataTypes.STRING(50),
-            allowNull: true,
-            validate: {
-                isAlphanumeric: {
-                    msg: "Must provide alphanumeric characters only."
-                }
-            }
+            allowNull: true
         },
         lastName: {
             type: DataTypes.STRING(50),
-            allowNull: true,
-            validate: {
-                isAlphanumeric: {
-                    msg: "Must provide alphanumeric characters only."
-                }
-            }
+            allowNull: true
         },
         isActive: {
             type: DataTypes.INTEGER,

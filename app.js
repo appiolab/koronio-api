@@ -10,6 +10,7 @@ var expressValidator = require('express-validator');
 var routes  = require('./routes/index');
 var users   = require('./routes/users');
 var auth    = require('./routes/auth');
+var profile = require('./routes/profile');
 
 var app = express();
 
@@ -30,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var apiPrefix = '/api/v1';
 app.use(routes);
 app.use(apiPrefix + '/auth', auth);
+app.use(apiPrefix + '/profile', profile);
 app.use(apiPrefix + '/users', users);
 
 // catch 404 and forward to error handler
