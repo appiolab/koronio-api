@@ -28,7 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 var apiPrefix = '/api/v1';
-app.use(apiPrefix + '/', routes);
+app.use(routes);
 app.use(apiPrefix + '/auth', auth);
 app.use(apiPrefix + '/users', users);
 
