@@ -6,13 +6,14 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 
-
+// routes
 var routes  = require('./routes/index');
 var users   = require('./routes/users');
 var auth    = require('./routes/auth');
 var profile = require('./routes/profile');
+var team    = require('./routes/team');
 
-var app = express();
+var app     = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,6 +34,7 @@ app.use(routes);
 app.use(apiPrefix + '/auth', auth);
 app.use(apiPrefix + '/profile', profile);
 app.use(apiPrefix + '/users', users);
+app.use(apiPrefix + '/teams', team);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
