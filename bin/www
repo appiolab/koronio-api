@@ -4,15 +4,17 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('KoronioApi:server');
-var http = require('http');
+var app     = require('../app');
+var debug   = require('debug')('KoronioApi:server');
+var http    = require('http');
+var env     = require('dotenv').config();
+
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || process.env.DEV_PORT);
 app.set('port', port);
 
 /**
