@@ -6,8 +6,10 @@
 var errorMessage        = require('./../../lib/ErrorMessage')();
 var models              = require('../../models');
 var moment              = require('moment');
+var jwt                 = require('jsonwebtoken');
 var bcrypt              = require('bcryptjs');
 var salt                = bcrypt.genSaltSync(10);
+var env                 = require('dotenv').config();
 
 module.exports = function (){
 
@@ -20,6 +22,7 @@ module.exports = function (){
 
             var email       = data.email;
 
+
             return new Promise( function (resolve, reject) {
 
                var user = models.User.findOne({
@@ -28,17 +31,32 @@ module.exports = function (){
                         }})
                     .then(function (result) {
 
+
                         var isPasswordMatch = bcrypt.compareSync(data.password, result.password);
 
                         if (isPasswordMatch == true){
 
-                            //@TODO generate a jwt token and sent it with user
+                            var tokenize = {
+                                userid      : result.userid,
+                                email       : result.email,
+                                firstName   : result.firstName,
+                                lastName    : result.lastName,
+                                type        : result.userType,
+                                isActive    : result.isActive== 1?'Active':'Inactive',
+                                lastLogin   : result.lastLogin,
+                                signup      : result.createdAt
+                            }
+
+                            var token = jwt.sign(tokenize, process.env.JWT_SECRET, {
+                                expiresIn: '24h'
+                            } );
 
                             return resolve({
                                 status: true,
                                 httpStatus: 200,
                                 result: {
-                                    user: result
+                                    authenticated: true,
+                                    accessToken: token
                                 }
                             });
 
@@ -47,7 +65,7 @@ module.exports = function (){
                         }
                     })
                     .catch(function (err) {
-                        return reject(errorMessage.unauthorizeError('Email address not found!'));
+                        return reject(errorMessage.unauthorizeError(err));
                     });
 
             });
