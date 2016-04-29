@@ -7,6 +7,8 @@ module.exports = function (validator) {
 
     return function (req, res, next) {
 
+        //@TODO add confirm password validation
+
         req.checkBody('first_name', 'Alptha numeric Name Only').isAlphanumeric();
         req.checkBody('last_name', 'Alptha numeric Name Only').isAlphanumeric();
         req.checkBody('userid', 'Alpha numeric Userid Required').notEmpty().isAlphanumeric();

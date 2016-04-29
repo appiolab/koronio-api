@@ -22,7 +22,6 @@ module.exports = function (){
 
             var email       = data.email;
 
-
             return new Promise( function (resolve, reject) {
 
                var user = models.User.findOne({
@@ -111,6 +110,45 @@ module.exports = function (){
 
         },
         signOut: function () {
+
+        },
+        /**
+         * Update user Password
+         *
+         * @TODO add an activationCode field to verify update on forget password
+         *
+         * @param data
+         */
+        updatePassword: function (data) {
+
+            return new Promise( function (resolve, reject) {
+
+                models.User.update(
+                    {
+                        password    : bcrypt.hashSync(data.newPassword, salt),
+                    },
+                    {
+                    where: {
+                        id: data.id
+                    }})
+                    .then(function (user) {
+
+                        return resolve({
+                            status: true,
+                            httpStatus: 200,
+                            result: {
+                                user: user
+                            }
+                        });
+
+                    })
+                    .catch(function (err) {
+                        return reject(errorMessage.notFoundError(err));
+                    });
+
+            });
+
+
 
         }
     }
