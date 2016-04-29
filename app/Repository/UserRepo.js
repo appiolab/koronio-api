@@ -113,6 +113,68 @@ module.exports = function (){
 
         },
         /**
+         * Update User Profile
+         *
+         * @param data
+         */
+        update: function (data) {
+
+            return new Promise( function (resolve, reject) {
+
+                models.User.update(
+                    {
+                        firstaName  : data.first_name,
+                        lastName    : data.last_name,
+                    },
+                    {
+                        where: {
+                            id: data.id
+                        }})
+                    .then(function (user) {
+
+                        return resolve({
+                            status: true,
+                            httpStatus: 200,
+                            result: {
+                                user: user
+                            }
+                        });
+                    })
+                    .catch(function (err) {
+                        return reject(errorMessage.notFoundError(err));
+                    });
+
+            });
+        },
+        updateEmailAddress: function (data) {
+            return new Promise( function (resolve, reject) {
+
+                models.User.update(
+                    {
+                        email  : data.newEmail,
+                    },
+                    {
+                        where: {
+                            id: data.id
+                        }})
+                    .then(function (user) {
+
+                        return resolve({
+                            status: true,
+                            httpStatus: 200,
+                            result: {
+                                user: user
+                            }
+                        });
+                    })
+                    .catch(function (err) {
+                        return reject(errorMessage.notFoundError(err));
+                    });
+
+            });
+
+        },
+        /**
          * Update user Password
          *
          * @TODO add an activationCode field to verify update on forget password
