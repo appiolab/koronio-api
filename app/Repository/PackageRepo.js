@@ -18,7 +18,32 @@ module.exports = function (){
          *
          * Get all Packages
          */
-        getPackages: function () {
+        getAllPackages: function (activeOnly) {
+
+            return new Promise(function (resolve, reject) {
+
+                models.Package.findAll({
+                            where: {
+                                status: activeOnly==true?1:0
+                            }
+                        }
+                    )
+                    .then(function (result) {
+
+                        if (result !== null){
+                            return resolve(
+                                response.success(result, 'Packages found!')
+                            );
+                        } else{
+                            return resolve(
+                                response.notFoundError('Package Not Found!')
+                            );
+                        }
+                    })
+                    .catch(function (err) {
+                        return reject(response.generalError(err));
+                    });
+            });
 
         },
         /**

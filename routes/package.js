@@ -10,8 +10,17 @@ var SubscribeValidator = require('../app/RequestValidations/Packages/SubscribeVa
  * @TODO get all packages
  */
 
-router.put('/', [jwtAuth] ,function (req, res) {
+router.get('/', [jwtAuth] ,function (req, res) {
 
+    PackageRepo.getAllPackages(true)
+        .then(function (result) {
+            res.httpStatus = result.httpStatus;
+            return res.json(result);
+        })
+        .catch(function (err) {
+            res.httpStatus = err.httpStatus;
+            return res.json(err);
+        })
 
 });
 
@@ -30,7 +39,7 @@ router.get('/:id', [jwtAuth], function (req, res) {
         .catch(function (err) {
             res.httpStatus = err.httpStatus;
             return res.json(err);
-        })
+        });
     
 });
 
