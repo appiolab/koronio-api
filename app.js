@@ -11,6 +11,7 @@ var routes  = require('./routes/index');
 var users   = require('./routes/users');
 var auth    = require('./routes/auth');
 var profile = require('./routes/profile');
+var package = require('./routes/package');
 var team    = require('./routes/team');
 
 var app     = express();
@@ -34,6 +35,7 @@ app.use(routes);
 app.use(apiPrefix + '/auth', auth);
 app.use(apiPrefix + '/profile', profile);
 app.use(apiPrefix + '/users', users);
+app.use(apiPrefix + '/packages', package);
 app.use(apiPrefix + '/teams', team);
 
 // catch 404 and forward to error handler

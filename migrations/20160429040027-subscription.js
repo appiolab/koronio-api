@@ -2,7 +2,7 @@
 
 module.exports = {
     up: function (queryInterface, Sequelize) {
-        return queryInterface.createTable('user_packages', {
+        return queryInterface.createTable('subscriptions', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -12,6 +12,10 @@ module.exports = {
             package_id: {
                 allowNull: false,
                 type: Sequelize.BIGINT,
+                references : {
+                    model : "packages",
+                    key   : "id",
+                },
                 validate: {
                     isInt: {
                         msg: "Must provide integer only."
@@ -21,6 +25,10 @@ module.exports = {
             user_id: {
                 allowNull: false,
                 type: Sequelize.BIGINT,
+                references : {
+                    model : "users",
+                    key   : "id",
+                },
                 validate: {
                     isInt: {
                         msg: "Must provide integer only."
@@ -62,19 +70,7 @@ module.exports = {
                 type: Sequelize.INTEGER,
                 allowNull: false
             },
-            allowedTeam: {
-                type: Sequelize.INTEGER,
-                allowNull: false
-            },
-            allowedProjects: {
-                type: Sequelize.INTEGER,
-                allowNull: false
-            },
-            allowedMember: {
-                type: Sequelize.INTEGER,
-                allowNull: false
-            },
-            allowedStorage: {
+            status: {
                 type: Sequelize.INTEGER,
                 allowNull: false
             },
@@ -90,7 +86,19 @@ module.exports = {
                 type: Sequelize.DATEONLY,
                 allowNull: false
             },
-            status: {
+            allowedTeam: {
+                type: Sequelize.INTEGER,
+                allowNull: false
+            },
+            allowedProjects: {
+                type: Sequelize.INTEGER,
+                allowNull: false
+            },
+            allowedMember: {
+                type: Sequelize.INTEGER,
+                allowNull: false
+            },
+            allowedStorage: {
                 type: Sequelize.INTEGER,
                 allowNull: false
             },

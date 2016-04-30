@@ -1,4 +1,5 @@
 'use strict';
+
 module.exports = function (sequelize, DataTypes) {
     var User = sequelize.define('User', {
         id: {
@@ -78,14 +79,25 @@ module.exports = function (sequelize, DataTypes) {
                 console.log('create user');
             },
             associate: function (models) {
-                // associations can be defined here
+                User.hasMany(models.Subscription, {
+                    foreignKey  : 'user_id',
+                    constraints : true
+                });
+                User.hasMany(models.Team, {
+                    foreignKey  : 'admin_id',
+                    constraints : true
+                });
+                User.hasMany(models.TeamMember, {
+                    foreignKey  : 'member_id',
+                    constraints : true
+                });
             }
         },
         instanceMethods: {
-            createIm: function () {
-                console.log('create instance method');
-            }
-        }
+
+        },
+        freezeTableName: true,
+        tableName: 'users'
     });
     return User;
 };

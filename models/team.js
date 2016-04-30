@@ -16,10 +16,6 @@ module.exports = function(sequelize, DataTypes) {
             },
             allowNull: false
         },
-        admin_id: {
-            type: DataTypes.BIGINT,
-            allowNull: false,
-        },
         name: {
             type: DataTypes.STRING(50),
             allowNull: false
@@ -64,9 +60,23 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                // associations can be defined here
+                Team.belongsTo(models.User, {
+                    foreignKey: 'admin_id',
+                    targetKey: 'id',
+                    constraints : true
+                });
+                Team.hasMany(models.TeamMember, {
+                    foreignKey: 'team_id',
+                    targetKey: 'id',
+                    constraints : true
+                });
             }
-        }
+        },
+        instanceMethods: {
+
+        },
+        freezeTableName: true,
+        tableName: 'teams'
     });
     return Team;
 };

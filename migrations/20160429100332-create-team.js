@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.BIGINT
       },
       slug: {
           type: Sequelize.STRING(50),
@@ -20,6 +20,10 @@ module.exports = {
       admin_id: {
           type: Sequelize.BIGINT,
           allowNull: false,
+          references : {
+              model : "users",
+              key   : "id",
+          }
       },
       name: {
           type: Sequelize.STRING(50),
