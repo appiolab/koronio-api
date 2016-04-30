@@ -4,6 +4,7 @@
 "use strict";
 
 var errorMessage        = require('./../../lib/ErrorMessage')();
+var Response            = require('./../../lib/Response')();
 var models              = require('../../models');
 var moment              = require('moment');
 var jwt                 = require('jsonwebtoken');
@@ -180,9 +181,10 @@ module.exports = function (){
          *
          * @TODO add an activationCode field to verify update on forget password
          *
-         * @param data
+         * @param data 
+         * @param userId
          */
-        updatePassword: function (data) {
+        updatePassword: function (data, userId) {
 
             return new Promise( function (resolve, reject) {
 
@@ -192,21 +194,15 @@ module.exports = function (){
                     },
                     {
                     where: {
-                        id: data.id
+                        id: userId
                     }})
                     .then(function (user) {
 
-                        return resolve({
-                            status: true,
-                            httpStatus: 200,
-                            result: {
-                                user: user
-                            }
-                        });
+                        return resolve(Response.success(user, 'Password Changed!'));
 
                     })
                     .catch(function (err) {
-                        return reject(errorMessage.notFoundError(err));
+                        return reject(Response.notFoundError(err));
                     });
 
             });
