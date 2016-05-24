@@ -17,14 +17,13 @@ module.exports = {
                 allowNull: true,
                 type: Sequelize.TEXT,
             },
+            isPaid: {
+                type: Sequelize.BOOLEAN,
+                allowNull: false
+            },
             rate: {
                 type: Sequelize.DOUBLE(10, 2),
-                allowNull: true,
-                validate: {
-                    isInt: {
-                        msg: "Must provide integer only."
-                    }
-                }
+                allowNull: true
             },
             durationType: {
                 type: Sequelize.STRING(50),
@@ -56,11 +55,13 @@ module.exports = {
             },
             createdAt: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
+                defaultValue: Sequelize.NOW
             },
             updatedAt: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
+                defaultValue: Sequelize.NOW
             }
         });
     },

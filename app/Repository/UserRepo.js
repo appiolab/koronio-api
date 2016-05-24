@@ -6,6 +6,7 @@
 var errorMessage        = require('./../../lib/ErrorMessage')();
 var Response            = require('./../../lib/Response')();
 var models              = require('../../models');
+var PackageRepo         = require('./PackageRepo')();
 var moment              = require('moment');
 var jwt                 = require('jsonwebtoken');
 var bcrypt              = require('bcryptjs');
@@ -30,8 +31,7 @@ module.exports = function (){
                             email: email
                         }})
                     .then(function (result) {
-
-
+                        
                         var isPasswordMatch = bcrypt.compareSync(data.password, result.password);
 
                         if (isPasswordMatch == true){
@@ -55,14 +55,20 @@ module.exports = function (){
                             return resolve({
                                 status: true,
                                 httpStatus: 200,
+                                token:token,
                                 result: {
-                                    authenticated: true,
-                                    accessToken: token
+                                    authenticated: true
                                 }
                             });
 
                         } else{
-                            return reject(errorMessage.unauthorizeError('Password does not match!'));
+
+                            var error = [{
+                                param   : 'password',
+                                message: 'Password does not match!'
+                            }];
+
+                            return reject(errorMessage.unauthorizeError(error));
                         }
                     })
                     .catch(function (err) {
@@ -87,8 +93,8 @@ module.exports = function (){
                 firstName   : data.first_name,
                 lastName    : data.last_name,
                 password    : bcrypt.hashSync(data.password, salt),
-                isActive    : 1,
-                userType    : 3,                // app user
+                status      : 'active',
+                userType    : 'user',              // app user
                 lastLogin   : moment().toISOString()
             };
 
@@ -97,16 +103,43 @@ module.exports = function (){
                 var user = models.User.build(userObject)
                     .save(userObject)
                     .then(function (newUser) {
-                        return resolve({
-                            status: true,
-                            httpStatus: 201,
-                            result: {
-                                user: newUser
-                            }
+
+                        PackageRepo.getDefaultFreePackage().then(function (result) {
+
+                            PackageRepo.subscribe(result.id, 1, newUser)
+                                .then(function (response) {
+
+                                    return resolve({
+                                        status: true,
+                                        httpStatus: 201,
+                                        result: {
+                                            user: newUser,
+                                            subscription: response.result
+                                        }
+                                    });
+
+                                })
+                                .catch(function (error) {
+                                    return resolve({
+                                        status: true,
+                                        httpStatus: 201,
+                                        result: {
+                                            user: newUser,
+                                            subscription: error
+                                        }
+                                    });
+                                });
+
                         });
+
                     })
                     .catch(function (err) {
-                        return reject(errorMessage.generalError(err, 'UserRepo', 'signUp'));
+
+                        if (err.message === 'Validation error'){
+                            return reject(errorMessage.validationError(err.errors, 'UserRepo', 'signUp'))
+                        } else {
+                            return reject(errorMessage.generalError(err.errors, 'UserRepo', 'signUp'));
+                        }
                     });
             });
 

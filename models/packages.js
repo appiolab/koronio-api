@@ -32,6 +32,23 @@ module.exports = function(sequelize, DataTypes) {
         status: {
             allowNull: false,
             type: DataTypes.INTEGER,
+            get      : function()  {
+                var status = this.getDataValue('status');
+                if (status == 1) {
+                    return 'active';
+                } else {
+                    return 'inactive';
+                }
+            },
+            set      : function(val) {
+                var valStatus = 0;
+                if (val == 'inactive'){
+                    valStatus = 0;
+                } else if (val == 'active'){
+                    valStatus = 1;
+                }
+                this.setDataValue('status', valStatus);
+            }
         },
         allowedTeam: {
             type: DataTypes.INTEGER,
@@ -74,7 +91,6 @@ module.exports = function(sequelize, DataTypes) {
                 var duration = this.duration * packageQty;
 
                 if(this.durationType === 'yearly'){
-                    // return moment().add(duration, 'y').format('YYYY-MM-DD');
                     return '2035-12-31';
                 } else if(this.durationType === 'monthly'){
                     return moment().add(duration, 'M').format('YYYY-MM-DD');
@@ -85,8 +101,6 @@ module.exports = function(sequelize, DataTypes) {
             getDeactivationDate: function (packageQty) {
 
                 if(this.durationType === 'yearly'){
-                    // var duration = this.duration * packageQty;
-                    // return moment().add(duration, 'y').format('YYYY-MM-DD');
                     return '2035-12-31';
                 } else if(this.durationType === 'monthly'){
                     var duration = this.duration * packageQty;

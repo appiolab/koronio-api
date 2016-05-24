@@ -9,8 +9,8 @@ router.get('/', function(req, res, next) {
         userid: 'arifulhb1',
         firstName: 'ariful',
         lastName: 'haque',
-        isActive: 1,
-        userType: 1,
+        status: 'active',
+        userType: 'user',
         password: 'test',
         lastLogin: '2016-04-26'
     };
@@ -24,10 +24,6 @@ router.get('/', function(req, res, next) {
         .catch(function (er) {
             res.send(er);
         });
-
-
-    // res.send('User created');
-
 
 });
 

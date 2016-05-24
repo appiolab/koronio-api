@@ -17,9 +17,7 @@ module.exports = function (validator) {
         if (errors) {
 
             var erObj = errorMessage.validationError(errors);
-            res.httpStatus = erObj.httpStatus;
-
-            return res.json(erObj);
+            return res.status(erObj.httpStatus).json(erObj);
         }
 
         return next();

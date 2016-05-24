@@ -8,17 +8,18 @@ var signUpValidator = require('../app/RequestValidations/Auth/SignUpValidator');
 /**
  * Sign Up a user
  */
-router.post('/signup', signUpValidator(function (req) {}), function(req, res, next) {
-
+router.post('/signup', signUpValidator(function (req) {}),
+    function(req, res, next) {
 
     UserRepo.signUp(req.body)
     .then(function (result) {
-
-        return res.json(result);
+        return res.status(result.httpStatus)
+            .json(result);
 
     }).catch(function (err) {
 
-        return res.json(err);
+        return res.status(err.httpStatus)
+            .json(err);
     });
 
 
@@ -32,15 +33,15 @@ router.post('/signin', signInValidator(function (req) {}),function (req, res, ne
 
     UserRepo.signIn(req.body)
         .then(function (user) {
-
-            res.httpStatus = user.httpStatus;
-            return res.json(user);
+            
+            return res.status(user.httpStatus)
+                .json(user);
 
         })
         .catch(function (err) {
 
-            res.httpStatus = err.httpStatus;
-            return res.json(err);
+            return res.status(err.httpStatus)
+                .json(err);
         });
 
 });

@@ -15,6 +15,7 @@ module.exports = {
                   msg: "Must provide alphanumeric characters only."
               }
           },
+          unique: true,
           allowNull: false
       },
       admin_id: {
@@ -40,7 +41,7 @@ module.exports = {
                   msg: "Must be a valid email format."
               }
           },
-          allowNull: false
+          allowNull: true
       },
       website: {
           type: Sequelize.STRING(256),
@@ -50,14 +51,32 @@ module.exports = {
           type: Sequelize.INTEGER,
           allowNull: false
       },
-      maxProjects: {
+      max_projects: {
+          type: Sequelize.INTEGER,
+          defaultValue: 2,
+          allowNull: false
+      },
+      max_members: {
+          type: Sequelize.INTEGER,
+          defaultValue: 5,
+          allowNull: false
+      },
+      visibility: {
           type: Sequelize.INTEGER,
           allowNull: false
       },
-      maxMembers: {
-          type: Sequelize.INTEGER,
-          allowNull: false
-      },
+        social_facebook: {
+            type: Sequelize.STRING(50),
+            allowNull: true
+        },
+        social_twitter: {
+            type: Sequelize.STRING(50),
+            allowNull: true
+        },
+        social_linkedin: {
+            type: Sequelize.STRING(50),
+            allowNull: true
+        },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

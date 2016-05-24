@@ -4,9 +4,13 @@ var moment              = require('moment');
 module.exports = {
   up: function (queryInterface, Sequelize) {
 
+    console.log('createdAt: ', moment().format('YYYY-MM-DD HH:mm:ss.SSS'));
+
+
     return queryInterface.bulkInsert('packages', [{
       name            : 'Free',
       description     : 'Free Package',
+      isPaid          : false,
       rate            : 0.00,
       durationType    : 'yearly',
       duration        : 127,
@@ -15,12 +19,13 @@ module.exports = {
       allowedProjects : 2,
       allowedMember   : 5,
       allowedStorage  : 1024,
-      createdAt       : moment().toISOString(),
-      updatedAt       : moment().toISOString(),
+      createdAt       : moment().format('YYYY-MM-DD HH:mm:ss.SSS'),
+      updatedAt       : moment().format('YYYY-MM-DD HH:mm:ss.SSS')
     },
       {
         name            : 'Starter',
         description     : 'Starter Package',
+        isPaid          : true,
         rate            : 5.00,
         durationType    : 'monthly',
         duration        : 1,
@@ -29,12 +34,13 @@ module.exports = {
         allowedProjects : 5,
         allowedMember   : 10,
         allowedStorage  : 2048,
-        createdAt       : moment().toISOString(),
-        updatedAt       : moment().toISOString(),
+        createdAt       : moment().format('YYYY-MM-DD HH:mm:ss.SSS'),
+        updatedAt       : moment().format('YYYY-MM-DD HH:mm:ss.SSS')
       },
       {
         name            : 'Super',
         description     : 'Super Package',
+        isPaid          : true,
         rate            : 10.00,
         durationType    : 'monthly',
         duration        : 1,
@@ -43,12 +49,13 @@ module.exports = {
         allowedProjects : 15,
         allowedMember   : 30,
         allowedStorage  : 4096,
-        createdAt       : moment().toISOString(),
-        updatedAt       : moment().toISOString()
+        createdAt       : moment().format('YYYY-MM-DD HH:mm:ss.SSS'),
+        updatedAt       : moment().format('YYYY-MM-DD HH:mm:ss.SSS')
       },
       {
         name            : 'Infinity',
         description     : 'Infinity Package',
+        isPaid          : true,
         rate            : 599.00,
         durationType    : 'Infinity',
         duration        : 1,
@@ -57,9 +64,10 @@ module.exports = {
         allowedProjects : 999,
         allowedMember   : 9999,
         allowedStorage  : 10240,
-        createdAt       : moment().toISOString(),
-        updatedAt       : moment().toISOString()
-      }], {
+        createdAt       : moment().format('YYYY-MM-DD HH:mm:ss.SSS'),
+        updatedAt       : moment().format('YYYY-MM-DD HH:mm:ss.SSS')
+      }
+    ], {
     });
 
   },

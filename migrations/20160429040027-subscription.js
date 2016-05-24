@@ -15,11 +15,6 @@ module.exports = {
                 references : {
                     model : "packages",
                     key   : "id",
-                },
-                validate: {
-                    isInt: {
-                        msg: "Must provide integer only."
-                    }
                 }
             },
             user_id: {
@@ -28,38 +23,18 @@ module.exports = {
                 references : {
                     model : "users",
                     key   : "id",
-                },
-                validate: {
-                    isInt: {
-                        msg: "Must provide integer only."
-                    }
                 }
             },
             packageQuantity: {
                 type: Sequelize.INTEGER,
-                allowNull: false,
-                validate: {
-                    isInt: {
-                        msg: "Must provide integer only."
-                    }
-                }
+                allowNull: false
             },
             rate: {
                 type: Sequelize.DOUBLE(10, 2),
-                validate: {
-                    isInt: {
-                        msg: "Must provide double only."
-                    }
-                },
                 allowNull: false
             },
             price: {
                 type: Sequelize.DOUBLE(10, 2),
-                validate: {
-                    isInt: {
-                        msg: "Must provide double only."
-                    }
-                },
                 allowNull: false
             },
             durationType: {

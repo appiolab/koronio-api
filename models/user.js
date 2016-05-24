@@ -1,4 +1,5 @@
 'use strict';
+var statusCode = require('./../lib/status_code/UserStatusCode')();
 
 module.exports = function (sequelize, DataTypes) {
     var User = sequelize.define('User', {
@@ -36,26 +37,39 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING(50),
             allowNull: true
         },
-        isActive: {
+        status: {
             type: DataTypes.INTEGER,
             allowNull: false,
             validate: {
                 isIn: {
                     args: [[0, 1]],
-                    msg: "Must be 0 or 1 only."
+                    msg: "Must be 'active' or 'inactive' only."
                 }
+            },
+            get : function()  {
+                return statusCode.getStatus(this.getDataValue('status'));
+            },
+            set : function(val) {
+                this.setDataValue('status', statusCode.setStatus(val));
             }
+
         },
         userType: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            field: 'user_type',
             validate: {
                 isIn: {
-                    args: [[1, 2, 3]],
-                    msg: "Must be 1, 2 or 3 only"
+                    args: [[0, 1, 2, 3]],
+                    msg: "Must be 'admin', 'moderator' or 'user' only"
                 }
+            },
+            get : function()  {
+                return statusCode.getUserType(this.getDataValue('userType'));
+            },
+            set : function(val) {
+                this.setDataValue('userType', statusCode.setUserType(val));
             }
-
         },
         lastLogin: {
             type: DataTypes.DATE,

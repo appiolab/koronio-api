@@ -126,15 +126,15 @@ module.exports = function (){
                         if (result !== null){
 
                             var subscriptionData = {
-                                package_id          : parseInt(packageId),
-                                user_id             : user.id,
+                                packageId           : parseInt(packageId),
+                                userId              : user.id,
                                 packageQuantity     : packageQty,
                                 rate                : result.rate,
                                 price               : (result.rate * packageQty),
                                 durationType        : result.durationType,
                                 duration            : (result.duration * packageQty),
-                                status              : 1,    //active
-                                activationDate      : moment().format(),
+                                status              : 'active',
+                                activationDate      : moment().format('YYYY-MM-DD HH:mm:ss.SSS'),
                                 expireDate          : result.getSubscriptionExpireDate(packageQty),
                                 deactivationDate    : result.getDeactivationDate(packageQty),
                                 allowedTeam         : result.allowedTeam,
@@ -188,6 +188,29 @@ module.exports = function (){
         unsubscribe: function (id, user) {
 
 
+        },
+        getDefaultFreePackage: function () {
+            return new Promise(function (resolve, reject) {
+
+                models.Package.findOne({
+                        where: {
+                            isPaid: false
+                        }
+                    })
+                    .then(function (result) {
+
+                        if (result !== null){
+                            return resolve( result );
+                        } else{
+                            return resolve(false);
+                        }
+
+                    })
+                    .catch(function (err) {
+                        return reject(err);
+                    });
+
+            });
         }
     }
 };

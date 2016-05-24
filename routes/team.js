@@ -2,25 +2,64 @@ var express     = require('express');
 var router      = express.Router();
 var models      = require('../models');
 var jwtAuth     = require('../middlewares/jwtAccessToken')();
-var UserRepo    = require('../app/Repository/UserRepo')();
+var TeamRepo    = require('../app/Repository/TeamRepo')();
 
 /**
  * Get profile
  * @TODO profile: get teams
  */
-router.get('/', [jwtAuth],function(req, res) {
+router.get('/', [jwtAuth], function(req, res) {
 
-    res.json({
-        user: req.user
+    TeamRepo.getAll(req.user.id)
+        .then(function (result) {
+            return res.status(result.httpStatus)
+                .json(result);
+
+        }).catch(function (err) {
+        return res.status(err.httpStatus)
+            .json(err);
     });
+    
 });
+
+
+router.get('/:id', [jwtAuth], function(req, res) {
+
+    
+});
+
+
+router.get('/teamid/:teamid', [jwtAuth], function(req, res) {
+
+    TeamRepo.getByTeamid(req.params.teamid)
+        .then(function (result) {
+            return res.status(result.httpStatus)
+                .json(result);
+
+        }).catch(function (err) {
+        return res.status(err.httpStatus)
+            .json(err);
+    });
+    
+});
+
 
 /**
  * Create new team
  * @TODO team: create new team
  */
 router.post('/', [jwtAuth], function (req, res) {
+    
+    TeamRepo.create(req.body)
+    .then(function (result) {
+        return res.status(result.httpStatus)
+            .json(result);
 
+    }).catch(function (err) {
+        return res.status(err.httpStatus)
+            .json(err);
+    });
+    
 });
 
 /**

@@ -11,60 +11,28 @@ module.exports = {
             email: {
                 allowNull: false,
                 unique: true,
-                type: Sequelize.STRING(50),
-                validate: {
-                    isEmail: {
-                        msg: "Must be a valid email format."
-                    }
-                }
+                type: Sequelize.STRING(50)
             },
             userid: {
                 allowNull: false,
                 type: Sequelize.STRING(25),
-                unique: true,
-                validate: {
-                    isAlphanumeric: {
-                        msg: "Must provide alphanumeric characters only."
-                    }
-                }
+                unique: true
             },
             firstName: {
                 type: Sequelize.STRING(50),
-                allowNull: true,
-                validate: {
-                    isAlphanumeric: {
-                        msg: "Must provide alphanumeric characters only."
-                    }
-                }
+                allowNull: true
             },
             lastName: {
                 type: Sequelize.STRING(50),
-                allowNull: true,
-                validate: {
-                    isAlphanumeric: {
-                        msg: "Must provide alphanumeric characters only."
-                    }
-                }
+                allowNull: true
             },
-            isActive: {
+            status: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
-                validate: {
-                    isIn: {
-                        args: [[0, 1]],
-                        msg: "Must be 0 or 1 only."
-                    }
-                }
             },
-            userType: {
+            user_type: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
-                validate: {
-                    isIn: {
-                        args: [[1, 2, 3]],
-                        msg: "Must be 1, 2 or 3 only"
-                    }
-                }
             },
             lastLogin: {
                 type: Sequelize.DATE,

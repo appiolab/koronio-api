@@ -15,6 +15,7 @@ var env     = require('dotenv').config();
  */
 
 var port = normalizePort(process.env.PORT || process.env.DEV_PORT);
+console.log('port setting: ', port);
 app.set('port', port);
 
 /**

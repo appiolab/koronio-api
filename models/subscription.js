@@ -1,4 +1,5 @@
 'use strict';
+var statusCode = require('./../lib/status_code/SubscriptionStatusCode')();
 
 module.exports = function(sequelize, DataTypes) {
     var Subscription = sequelize.define('Subscription', {
@@ -8,18 +9,20 @@ module.exports = function(sequelize, DataTypes) {
             primaryKey: true,
             type: DataTypes.BIGINT
         },
-        package_id: {
+        packageId: {
             allowNull: false,
             type: DataTypes.BIGINT,
+            field: 'package_id',
             validate: {
                 isInt: {
                     msg: "Must provide integer only."
                 }
             }
         },
-        user_id: {
+        userId: {
             allowNull: false,
             type: DataTypes.BIGINT,
+            field: 'user_id',
             validate: {
                 isInt: {
                     msg: "Must provide integer only."
@@ -28,14 +31,29 @@ module.exports = function(sequelize, DataTypes) {
         },
         packageQuantity: {
             type: DataTypes.INTEGER,
+            validate: {
+                isInt: {
+                    msg: "Must provide integer only."
+                }
+            },
             allowNull: false
         },
         rate: {
             type: DataTypes.DOUBLE(10, 2),
+            validate: {
+                isInt: {
+                    msg: "Must provide double only."
+                }
+            },
             allowNull: false
         },
         price: {
             type: DataTypes.DOUBLE(10, 2),
+            validate: {
+                isInt: {
+                    msg: "Must provide double only."
+                }
+            },
             allowNull: false
         },
         durationType: {
@@ -49,6 +67,18 @@ module.exports = function(sequelize, DataTypes) {
         status: {
             allowNull: false,
             type: DataTypes.INTEGER,
+            validate: {
+                isIn: {
+                    args: [[0, 1]],
+                    msg: "Must be 'active' or 'inactive' only."
+                }
+            },
+            get : function()  {
+                return statusCode.getStatus(this.getDataValue('status'));
+            },
+            set : function(val) {
+                this.setDataValue('status', statusCode.setStatus(val));
+            }
         },
         activationDate: {
             type: DataTypes.DATEONLY,

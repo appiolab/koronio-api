@@ -9,21 +9,17 @@ module.exports = function (validator) {
 
         //@TODO add confirm password validation
 
-        req.checkBody('first_name', 'Alptha numeric Name Only').isAlphanumeric();
-        req.checkBody('last_name', 'Alptha numeric Name Only').isAlphanumeric();
+        req.checkBody('first_name', 'First Name Required').notEmpty();
+        req.checkBody('last_name', 'Last Name Required').notEmpty();
         req.checkBody('userid', 'Alpha numeric Userid Required').notEmpty().isAlphanumeric();
         req.checkBody('email', 'Valid email address required').notEmpty().isEmail();
         req.checkBody('password', 'Invalid Password').notEmpty();
 
         var errors = req.validationErrors();
-
         if (errors) {
-
-            var erObj       = errorMessage.validationError(errors)
-            res.httpStatus  = erObj.httpStatus;
-
-            return res.json(erObj);
-
+            var erObj       = errorMessage.validationError(errors);
+            return res.status(erObj.httpStatus)
+                    .json(erObj);
         }
 
         return next();

@@ -1,20 +1,12 @@
 'use strict';
 module.exports = {
     up: function(queryInterface, Sequelize) {
-        return queryInterface.createTable('teamMembers', {
+        return queryInterface.createTable('team_members', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.BIGINT
-            },
-            member_id: {
-                allowNull: false,
-                type: Sequelize.BIGINT,
-                references : {
-                    model : "users",
-                    key   : "id",
-                }
             },
             team_id: {
                 allowNull: false,
@@ -24,31 +16,27 @@ module.exports = {
                     key   : "id",
                 }
             },
-            isActive: {
-                type: Sequelize.BOOLEAN,
+            role_id: {
+                type: Sequelize.INTEGER,
                 allowNull: false
             },
-            canCreateProject: {
-                type: Sequelize.BOOLEAN,
+            designation: {
+                type: Sequelize.STRING,
+                allowNull: true
+            },
+            status: {
+                type: Sequelize.INTEGER,
                 allowNull: false
             },
-            canUpdateProject: {
-                type: Sequelize.BOOLEAN,
-                allowNull: false
+            activation_code: {
+                type: Sequelize.STRING,
+                allowNull: true
             },
-            canDeleteProject: {
-                type: Sequelize.BOOLEAN,
-                allowNull: false
+            activation_date: {
+                type: Sequelize.DATE,
+                allowNull: true
             },
-            canCreateTask: {
-                type: Sequelize.BOOLEAN,
-                allowNull: false
-            },
-            canUpdateTask: {
-                type: Sequelize.BOOLEAN,
-                allowNull: false
-            },
-            canDeleteTask: {
+            create_project: {
                 type: Sequelize.BOOLEAN,
                 allowNull: false
             },
@@ -63,6 +51,6 @@ module.exports = {
         });
     },
     down: function(queryInterface, Sequelize) {
-        return queryInterface.dropTable('teamMembers');
+        return queryInterface.dropTable('team_members');
     }
 };
